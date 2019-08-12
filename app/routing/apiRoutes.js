@@ -4,7 +4,7 @@ var fs = require("fs");
 var friendData = require("../data/friends");
 
 var app = express.Router();
-
+var Maxindex = 0;
 app.post("/post", function(req,res){
     var newFiendData = req.body;
     console.log(newFiendData);
@@ -19,8 +19,9 @@ app.post("/post", function(req,res){
        //console.log(findTheBest(newFiendData.scores,friendData.friendData[i]));
        resultArr.push(findTheBest(newFiendData.scores,friendData.friendData[i].scores));
     }
-    var Maxindex = resultArr.indexOf(Math.min(...resultArr));
-    res.json(friendData.friendData[Maxindex]);
+    Maxindex = resultArr.indexOf(Math.min(...resultArr));
+    //res.json(friendData.friendData[Maxindex]);
+    console.log(friendData.friendData[Maxindex]);
     friendData.friendData.push(newFiendData);
 });
 
@@ -28,7 +29,9 @@ app.get("/list",function(req,res){
     res.json(friendData.friendData);
 });
 
-
+app.get("/match", function(req, res){
+    res.json(friendData.friendData[Maxindex]);
+})
 function findTheBest (userArr,firendsArr){
     // Try edit message
     
