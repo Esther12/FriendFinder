@@ -15,7 +15,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/signup",apiRoutes);
-app.use("/signup",htmlRoutes);
+app.use("/",htmlRoutes);
 
 
 app.listen(PORT, function() {
