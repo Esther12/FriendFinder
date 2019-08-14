@@ -4,7 +4,8 @@ var fs = require("fs");
 var friendData = require("../data/friends");
 
 var app = express.Router();
-var Maxindex = 0;
+var Minindex = 0;
+
 app.post("/post", function(req,res){
     var newFiendData = req.body;
     console.log(newFiendData);
@@ -19,9 +20,9 @@ app.post("/post", function(req,res){
        //console.log(findTheBest(newFiendData.scores,friendData.friendData[i]));
        resultArr.push(findTheBest(newFiendData.scores,friendData.friendData[i].scores));
     }
-    Maxindex = resultArr.indexOf(Math.min(...resultArr));
+    Minindex = resultArr.indexOf(Math.min(...resultArr));
     //res.json(friendData.friendData[Maxindex]);
-    console.log(friendData.friendData[Maxindex]);
+    console.log(friendData.friendData[Minindex]);
     friendData.friendData.push(newFiendData);
 });
 
@@ -30,7 +31,7 @@ app.get("/list",function(req,res){
 });
 
 app.get("/match", function(req, res){
-    res.json(friendData.friendData[Maxindex]);
+    res.json(friendData.friendData[Minindex]);
 })
 function findTheBest (userArr,firendsArr){
     // Try edit message
@@ -40,7 +41,7 @@ function findTheBest (userArr,firendsArr){
         // index - index for this value in the array
         // arr - reference to analyzed array  
         return item - firendsArr[index];
-    })
+    })//return [1,-2,4,-5,3]
 
     //in this case we override values in first array
     console.log(compairedArray);
@@ -57,7 +58,7 @@ function findTheBest (userArr,firendsArr){
     positiveCompairArr.push(Diff(compairedArray[i])); 
    }
     //var x1 = x.map(Diff(x));
-    var arrSum = arr => arr.reduce((a,b) => a + b, 0);
+    var arrSum = arr => arr.reduce((a,b) => a + b, 0);//get sum of the positiveCompairArr
     console.log("return arr  " + arrSum(positiveCompairArr));
     return arrSum(positiveCompairArr);  
 }
